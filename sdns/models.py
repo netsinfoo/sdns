@@ -114,7 +114,6 @@ class Register(models.Model):
     def __str__(self):
         return self.host +"."+ str(self.domain)
 
-
 class Cts(models.Model):
 
     REGI= [
