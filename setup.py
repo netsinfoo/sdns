@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 setup(
-    name='plugin-sdns',
+    name='sdns',
     version='1.0',
     description='A Netbox plugin that brings Dns informations',
     url='https://github.com/netsinfoo/plugin-dns',

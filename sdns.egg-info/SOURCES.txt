@@ -1,0 +1,13 @@
+README.md
+setup.py
+sdns/__init__.py
+sdns/admin.py
+sdns/apps.py
+sdns/models.py
+sdns/tests.py
+sdns/views.py
+sdns.egg-info/PKG-INFO
+sdns.egg-info/SOURCES.txt
+sdns.egg-info/dependency_links.txt
+sdns.egg-info/top_level.txt
+sdns/migrations/__init__.py
