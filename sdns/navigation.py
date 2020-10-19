@@ -11,12 +11,13 @@ menu_items = (
                 link='plugins:sdns:register_add',
                 title='Add a new register',
                 icon_class='fa fa-plus',
+                color=ButtonColorChoices.GREEN,
             ),
             PluginMenuButton(
-                link='admin:sdns',
+                link='plugins:sdns:register_add',
                 title='Add a new animal',
-                icon_class='fa fa-plus',
-                color=ButtonColorChoices.GREEN,
+                icon_class='fa fa-download',
+                color=ButtonColorChoices.BLUE,
                 permissions=['sdns.add_register']
             ),
         )

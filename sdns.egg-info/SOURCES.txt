@@ -8,7 +8,7 @@ sdns/choices.py
 sdns/filters.py
 sdns/forms.py
 sdns/models.py
-sdns/navegation.py
+sdns/navigation.py
 sdns/tables.py
 sdns/tests.py
 sdns/urls.py
