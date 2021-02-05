@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from ipam.models import IPAddress
+from ipam.models import IPAddress, Service
 #from .choices import RegisterStatusChoices
 
 # Create your models here.
@@ -39,27 +39,24 @@ class Domain(models.Model):
     name = models.CharField(max_length=30, unique=True)
     date_joined = models.DateField()
 
-    def get_absolute_url(self):
-        return reverse("domain_update", kwargs={"pk": self.pk})
+    # def get_absolute_url(self):
+    #     return reverse("domain_update", kwargs={"pk": self.pk})
 
     def __str__(self):
         return self.name
 
 class Ns(models.Model):
-    TIPO = [
-        ('P', 'PRIMARIO'),
-        ('S', 'SECUNDARIO'),
-        ('T', 'TERCEARIO'),
-    ]
+    TIPO = [('M' , 'Master'), ('S', 'Slave')]
 
-    ns =  models.OneToOneField(
-        to='ipam.IPAddress',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-        verbose_name='Ip NS'
-    )
+    # ns =  models.OneToOneField(
+    #     to='ipam.IPAddress',
+    #     on_delete=models.SET_NULL,
+    #     related_name='+',
+    #     blank=True,
+    #     null=True,
+    #     verbose_name='Ip NS'
+    # )
+    ns = models.ForeignKey('ipam.IPAddress', models.SET_NULL, blank= True, null=True)
     dom = models.ForeignKey('Domain', models.SET_NULL, blank= True, null=True)
     tipo = models.CharField(max_length=1, choices=TIPO, null=True)
 
@@ -70,14 +67,15 @@ class Ns(models.Model):
         return self.tipo
 
 class Mx(models.Model):
-    mx =  models.OneToOneField(
-        to='ipam.IPAddress',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-        verbose_name='Ip Mx'
-    )
+    mx =  models.ForeignKey('ipam.IPAddress', models.SET_NULL, blank= True, null=True)
+    # models.OneToOneField(
+    #     to='ipam.IPAddress',
+    #     on_delete=models.SET_NULL,
+    #     related_name='+',
+    #     blank=True,
+    #     null=True,
+    #     verbose_name='Ip Mx'
+    # )
     dom = models.ForeignKey('Domain', models.SET_NULL, blank= True, null=True)
     prior = models.CharField(max_length=2,null=True)
 
@@ -97,14 +95,15 @@ class Register(models.Model):
     domain = models.ForeignKey('Domain', on_delete=models.CASCADE)
     host   = models.CharField(max_length=30)
     reg    = models.CharField(max_length=1, choices=REG)
-    ip     = models.OneToOneField(
-        to='ipam.IPAddress',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-        verbose_name='IP host'
-    )
+    ip     = models.ForeignKey('ipam.IPAddress', models.SET_NULL, blank= True, null=True)
+    # models.OneToOneField(
+    #     to='ipam.IPAddress',
+    #     on_delete=models.SET_NULL,
+    #     related_name='+',
+    #     blank=True,
+    #     null=True,
+    #     verbose_name='IP host'
+    # )
 
 
     class Meta:
@@ -122,14 +121,7 @@ class Cts(models.Model):
         ('3' ,'SPF'),
      ]
 
-    registro =  models.OneToOneField(
-        to='ipam.IPAddress',
-        on_delete=models.SET_NULL,
-        related_name='+',
-        blank=True,
-        null=True,
-        verbose_name='IP Cts'
-    )
+    registro =  models.ForeignKey('ipam.IPAddress', models.SET_NULL, blank= True, null=True)
     reg      = models.CharField(max_length=1, choices=REGI)
     content  = models.CharField(max_length=30)
 
@@ -140,18 +132,22 @@ class Cts(models.Model):
     def __str__(self):
         return self.content
 
-class Service(models.Model):
 
-    nome = models.CharField(max_length=30)
-    dispositivo = models.CharField(max_length=30, unique=True)
+# class Service(models.Model):
+#     nome = models.CharField(max_length=30)
+#     dispositivo = models.CharField(max_length=30, unique=True)
 
-    def __str__(self):
-        return self.dispositivo
+#     def __str__(self):
+#         return self.dispositivo
 
 class DomainServ(models.Model):
-    REL = [('M' , 'Master'), ('S', 'Slave')]
+    REL = [
+        ('P', 'PRIMARIO'),
+        ('S', 'SECUNDARIO'),
+        ('T', 'TERCEARIO'),
+    ]
 
-    service = models.ForeignKey('Service', on_delete=models.CASCADE)
+    service = models.ForeignKey('ipam.Service', on_delete=models.CASCADE)
     dominio = models.ForeignKey('Domain',  on_delete=models.CASCADE)
     relation = models.CharField(max_length=1, choices=REL)
 
